@@ -16,27 +16,28 @@ const contactSchema = Schema({
         type: Boolean,
         default: false,
       },
+      owner: {
+        type: Schema.Types.ObjectId,
+        ref: 'user',
+        require: true,
+      },
 }, {versionKey: false, timestamps: true});
 
-const joiAddContactSchema = Joi.object({
-    
+const joiAddContactSchema = Joi.object({    
   name: Joi.string()    
       .min(2)
       .max(15)
       .required(),
-
     email: Joi.string()
       .email({
         minDomainSegments: 2,
       })
       .required(),
-
     phone: Joi.string()   
       .min(10)
       .max(20)
       .required(),
-
-    favorite: Joi.boolean(),
+    favorite: Joi.boolean(),    
   });
 
   const joiUpdateFavoriteSchema = Joi.object({ 
