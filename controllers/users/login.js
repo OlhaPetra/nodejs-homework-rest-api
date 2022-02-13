@@ -6,7 +6,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const { User, schemas } = require("../../models/user");
-const {SECRET_KEY} = process.env;
+const { SECRET_KEY } = process.env;
 
 const login = async (req, res, next) => {
   try {
@@ -24,17 +24,19 @@ const login = async (req, res, next) => {
       throw new CreateError(401, "Email or password is wrong");
     }
     const payload = {
-        id: user._id
-    }
-    const token = jwt.sign(payload, SECRET_KEY, {expiresIn: "1h"});
-    await User.findByIdAndUpdate(user._id, {token});
+      id: user._id,
+    };
+    const token = jwt.sign(payload, SECRET_KEY, { expiresIn: "1h" });
+    await User.findByIdAndUpdate(user._id, { token });
     res.json({
-        token,
-        user: {
-            email, 
-            subscription: "starter",
-        }
-    })
+      status: "success",
+      code: 201,
+      token,
+      user: {
+        email,
+        subscription: "starter",
+      },
+    });
   } catch (error) {
     next(error);
   }
